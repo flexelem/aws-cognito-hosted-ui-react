@@ -6,6 +6,7 @@ import axios from "axios";
 
 function Dashboard(props) {
     const [user, setUser] = useState();
+    const [apiResponse, setApiResponse] = useState('');
     const [isLoading, setIsLoading] = useState(true);
 
     async function getCurrentUser() {
@@ -32,7 +33,7 @@ function Dashboard(props) {
         };
 
         const apiResp = await axios.get(`${process.env.REACT_APP_API_GATEWAY_BASE_URL}/awesomeapi`, { headers });
-        console.log(JSON.stringify(apiResp));
+        setApiResponse(JSON.stringify(apiResp.data));
     }
 
     async function handleSignOut(event) {
@@ -53,8 +54,9 @@ function Dashboard(props) {
     return (
         <div className="container">
             <h1>Dashboard</h1>
-            <button onClick={handleSignOut} className="fluid ui button blue">Sign Out</button>
-            <button onClick={handleCallProtectedMethod} className="fluid ui button blue">Call Protected API</button>
+            <button onClick={handleSignOut}>Sign Out</button>
+            <button onClick={handleCallProtectedMethod}>Call Protected API</button>
+            <blockquote>{apiResponse}</blockquote>
         </div>
     )
 }
